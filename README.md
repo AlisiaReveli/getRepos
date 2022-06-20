@@ -30,7 +30,7 @@ For starting :
   ```
   
   You will be directed here:
-  <img width="934" alt="image" src="https://user-images.githubusercontent.com/77354184/174685584-25b93087-07d7-44ee-8773-8908e0504e87.png">
+  ![image](https://user-images.githubusercontent.com/77354184/174686780-f73d28a8-e322-4d0b-b340-64dfc55b40b1.png)
   
   <img width="957" alt="image" src="https://user-images.githubusercontent.com/77354184/174686459-0e02d853-aa3d-492a-92e9-f3988ca714a8.png">
 
