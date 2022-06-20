@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 var bodyParser = require("body-parser");
+var cors = require('cors')
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ mongoose
   .then(() => console.log("MongoDB connected..."))
   .catch((err) => console.log(err));
 // parse application/x-www-form-urlencoded
+app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json

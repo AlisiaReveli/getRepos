@@ -1,0 +1,119 @@
+.App {
+    text-align: center;
+    height: 100vh;
+    background-color: #040D21;
+
+}
+
+.App-h1 {
+    color: white;
+    padding-top: 3rem;
+    padding-left: 2rem;
+    font-style: italic;
+    font-size: 40px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+
+
+.App-header {
+    display: flex;
+    flex-direction: row;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    padding-top: 2rem;
+    background-color: #040D21;
+    justify-content: space-between;
+}
+
+@keyframes rotation {
+    from {
+        transform: rotate(3deg);
+    }
+
+    to {
+        transform: rotate(50deg);
+    }
+}
+
+.rotate {
+    animation: rotation 10s infinite linear;
+    margin-right: 12rem;
+    margin-top: 2rem;
+}
+
+
+.log-in-h6 {
+    color: white;
+    font-style: italic;
+    font-size: 18px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-bottom: 3rem;
+    margin-top: 2rem;
+}
+
+.log-in-form-body {
+    display: flex;
+    flex-direction: column;
+    background-color: #040D21;
+    padding-top: 2rem;
+    margin-left: 3rem;
+    padding-bottom: 2rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border-radius: 10px;
+    border: 2px solid #461F48;
+    width: 40rem;
+    height: 25rem;
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.log-in-form-body-token {
+    display: flex;
+    flex-direction: row;
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+}
+
+.log-in-form-body-token input {
+    width: 20rem;
+    border: 10px solid white;
+    border-radius: 7px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 1rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border-color: white;
+}
+
+.log-in-button {
+    background-color: rgb(46, 165, 80);
+    color: white;
+    border: 10px solid rgb(46, 165, 80);
+    border-radius: 10px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    font-size: 1rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    margin-right: 4rem;
+
+}
+
+.log-in-button-github {
+    border-radius: 10px;
+    margin-left: 13rem;
+    padding: 12px;
+    font-size: 1rem;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    width: 12rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}

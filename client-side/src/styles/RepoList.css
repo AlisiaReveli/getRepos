@@ -1,0 +1,57 @@
+.avatar {
+    vertical-align: middle;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 2rem;
+}
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    position: absolute;
+}
+
+#customers td,
+#customers th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    color: white;
+}
+
+
+
+#customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #c693e7;
+    color: white;
+}
+
+.link {
+    color: white;
+    text-decoration: none;
+    text-decoration: underline;
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+
+}
+
+.repo-list{
+        background-color: #040D21;
+       height: 100vh;
+}
+
+.header h2{
+    color: #fff;
+    font-size: 2rem;
+    margin: 0;
+    padding: 0;
+}
