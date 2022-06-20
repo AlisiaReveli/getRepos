@@ -1,22 +1,17 @@
-#here we're specifying the version of node
-#we can use the :latest tag as well.
-FROM node:14-slim
+# get the base node image
+FROM node:16 as builder
 
-#here we're defining the working directory
-WORKDIR /user/src/app
+# set the working dir for container
+WORKDIR /client-side
 
-#copying our dependencies to the container
-COPY ./package.json ./
-COPY ./package-lock.json ./
+# copy the json file first
+COPY package.json .
 
-#installing all the dependencies that we copied 
+# install npm dependencies
 RUN npm install
 
-#copying all the files inside the container
+# copy other project files
 COPY . .
 
-#exposing the port so we can access it further
-EXPOSE 3000
-
-#starting the application
-CMD ["npm", "start"]
+# build the folder
+CMD [ "npm", "run", "start" ]

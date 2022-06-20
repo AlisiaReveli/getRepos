@@ -1,45 +1,49 @@
-version: "3"
+version: '3.8'
 services:
-  react-app:
-    #here we've to specify the location of our Makefile
-    build: ./client-side/
-    stdin_open: true
-    #here we're mapping the exposed port i.e, 3000 to our machine port 3000.
-    # so that we can test the application on our port 3000.
-    ports: 
-      - "3000:3000"
-    networks:
-      - mern-app
+  mongo:
+    container_name: "mongodb"
+    image: mongo:4.4
+    hostname: mongodb
+    restart: always
     volumes:
-      - ./server/:/usr/src/app
-      - /usr/src/app/node_modules
-  api-server:
-    #here we've to specify the location of our Makefile
-    # build: ./server/
+      - ./data/mongodb/mongod.conf:/etc/mongod.conf
+      - ./data/mongodb/initdb.d/:/docker-entrypoint-initdb.d/
+      - ./data/mongodb/data/db/:/data/db/
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+      - MONGO_INITDB_DATABASE=development
+      - MONGO_INITDB_USER=mongodb
+      - MONGO_INITDB_PWD=mongodb
     ports:
-    #here we're mapping the exposed port i.e, 5000 to our machine port 5000.
-    # so that we can test the application on our port 5000.
-      - "5000:5000"
+      - 27017:27017
     networks:
-      - mern-app
-    volumes:
-      - ./server/:/usr/src/app
-      - /usr/src/app/node_modules
+      - shared-network
+    command: [ "-f", "/etc/mongod.conf" ]
+
+  api:
+    build: ./server-side
+    restart: unless-stopped
+    ports:
+      - "2400:2400"
+    environment:
+      DB_URL: mongodb+srv://alisia:12341234@cluster0.ko7bqp4.mongodb.net/?retryWrites=true&w=majority
+      clientID: "8f80d399a407f5416b92"
+      clientSecret: "ed10add7a1124c625658071dc442a5773451ac76"
+    networks:
+      - shared-network
     depends_on:
       - mongo
-  mongo:
-    #instead of build tag we're using image tag because we're using the official image of MongoDB
-    #this will pull the official image from the docker hub.
-    image: mongo:4.4-bionic
+
+  client:
+    build:
+      context: ./client-side
     ports:
-      - "27017:27017"
+      - "3000:3000"
     networks:
-      - mern-app
-    volumes:
-      - mongo-data:/data/db
+      - shared-network
+    depends_on:
+      - api
+
 networks:
-  mern-app:
-    driver: bridge
-volumes:
-  mongo-data:
-    driver: local
+  shared-network:
