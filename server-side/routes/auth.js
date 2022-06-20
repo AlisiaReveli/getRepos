@@ -10,4 +10,5 @@ router.get("/github/callback", authController.callback, (req, res) => {
 
 router.post("/manually-login", authController.manually);
 
+
 module.exports = router;

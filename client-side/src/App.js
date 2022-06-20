@@ -4,12 +4,12 @@ import { RepoList } from "./components/RepoList";
 
 
 function App() {
-  
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/repo" element={<RepoList  />} />
+        <Route path="/repo" element={<RepoList />} />
       </Routes>
     </BrowserRouter>
   );

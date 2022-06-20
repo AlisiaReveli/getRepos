@@ -5,21 +5,43 @@ const Repo = require("../model/Repos");
 
 const callback = (req, res) => {
   try {
-    axios({
-      method: "post",
-      url: `https://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${req.query.code}`,
-      // Set the content type header, so that we get the response in JSON
-      headers: {
-        accept: "application/json",
-      },
-    })
-      .then((response) => {
-        access_token = response.data.access_token;
-        getUserData(access_token, res);
+    if (!isNaN(req.query.userID)) {
+      Repo.find({ gitId: req.query.userID })
+        .then((repos) => {
+          if (repos.length !== 0) {
+            res.send({
+              user: {
+                id: repos[0].gitId,
+                login: repos[0].username,
+                avatar_url: repos[0].avatar_url,
+              },
+              repos: repos,
+            });
+          } else {
+            res.send('Please login again');
+          }
+        })
+        .catch((err) => {
+          console.log("err", err);
+        });
+    } else {
+      axios({
+        method: "post",
+        url: `https://github.com/login/oauth/access_token?client_id=${clientID}&client_secret=${clientSecret}&code=${req.query.code}`,
+        // Set the content type header, so that we get the response in JSON
+        headers: {
+          accept: "application/json",
+        },
       })
-      .catch((error) => {
-        console.log("error1", error);
-      });
+        .then((response) => {
+          access_token = response.data.access_token;
+          getUserData(access_token, res);
+        })
+        .catch((error) => {
+          console.log("error", error);
+        });
+    }
+
   } catch (error) {
     console.log("error2", error);
   }
@@ -42,11 +64,15 @@ const manually = async (req, res) => {
       .then((repos) => {
         if (repos.length !== 0) {
           res.send({
-            user: response.data,
+            user: {
+              id: repos[0].gitId,
+              login: repos[0].username,
+              avatar_url: repos[0].avatar_url,
+            },
             repos: repos,
           });
         } else {
-          getUserRepos(response, password, userData, res);
+          getUserRepos(response.data, password, res);
         }
       })
 
@@ -65,16 +91,19 @@ getUserData = (access_token, res) => {
         Authorization: "token " + access_token,
       },
     }).then((response) => {
-      userData = response.data;
       Repo.find({ gitId: response.data.id })
         .then((repos) => {
           if (repos.length !== 0) {
             res.send({
-              user: userData,
+              user: {
+                id: response.data.id,
+                login: response.data.login,
+                avatar_url: response.data.avatar_url,
+              },
               repos: repos,
             });
           } else {
-            getUserRepos(response, access_token, userData, res);
+            getUserRepos(response.data, access_token, res);
           }
         })
         .catch((err) => {
@@ -87,10 +116,10 @@ getUserData = (access_token, res) => {
 
 };
 
-getUserRepos = (response, access_token, userData, res) => {
+getUserRepos = (response, access_token, res) => {
   axios({
     method: "get",
-    url: `https://api.github.com/users/${response.data.login}/repos`,
+    url: `https://api.github.com/users/${response.login}/repos`,
     headers: {
       Authorization: `Bearer ${access_token}`,
       "Content-Type": "application/json",
@@ -101,8 +130,9 @@ getUserRepos = (response, access_token, userData, res) => {
       let responseData = [];
       response.data.forEach((element) => {
         const data = new Repo({
-          gitId: userData.id,
-          avatar_url: userData.avatar_url,
+          gitId: element.owner.id,
+          username: element.owner.login,
+          avatar_url: element.owner.avatar_url,
           repo_name: element.name,
           privacy: element.private,
           repo_url: element.html_url,
@@ -113,7 +143,11 @@ getUserRepos = (response, access_token, userData, res) => {
         responseData.push(data);
       });
       res.send({
-        user: userData,
+        user: {
+          id: responseData[0].id,
+          login: responseData[0].username,
+          avatar_url: responseData[0].avatar_url,
+        },
         repos: responseData,
       });
     })

@@ -38,7 +38,7 @@
 .header{
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     padding: 2rem;
 
@@ -54,4 +54,14 @@
     font-size: 2rem;
     margin: 0;
     padding: 0;
+}
+.logout{
+    color: #fff;
+    padding: 1rem;
+    margin-left: 12rem;
+    color: black;
+    font-weight: 100;
+}
+.image{
+    background-color: white;
 }

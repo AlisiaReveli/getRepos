@@ -3,6 +3,7 @@ const Repo = mongoose.model(
   "Repo",
   new mongoose.Schema({
     gitId: Number,
+    username: String,
     avatar_url: String,
     repo_name: String,
     privacy: Boolean,

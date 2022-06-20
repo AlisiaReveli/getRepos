@@ -1,7 +1,40 @@
 import logo from '../../src/glob.webp';
 import '../styles/HomePage.css'
+import { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
+
 
 export const HomePage = () => {
+    const [token, setToken] = useState('');
+
+    let navigate = useNavigate();
+
+    const sendToken = (e) => {
+        setToken(e.target.value);
+    }
+
+    const signWithToken = () => {
+        fetch(`http://localhost:2400/apiv1/manually-login`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                password: token
+            })
+        }).then(res => res.json())
+            .then(res => {
+                navigate("../repo", { state: res })
+            }).catch(err => console.log(err));
+
+    }
+
+    useEffect(() => {
+        if (localStorage.getItem('user-id')) {
+            navigate(`../repo/?code=${localStorage.getItem('code')}&&userID=${localStorage.getItem('user-id')}`)
+        }
+    }, [])
+
     return (
         <div className="App">
             <div className="App-header">
@@ -13,10 +46,10 @@ export const HomePage = () => {
                         </div>
                         <div className="log-in-form-body-token">
                             <div>
-                                <input type="password" placeholder="Personal Access Token" />
+                                <input onChange={(e) => sendToken(e)} type="password" placeholder="Personal Access Token" />
                             </div>
                             <div>
-                                <button className="log-in-button">Sign in with Token</button>
+                                <button onClick={() => signWithToken()} className="log-in-button">Sign in with Token</button>
                             </div>
                         </div>
                         <div>-OR-</div>
@@ -28,7 +61,7 @@ export const HomePage = () => {
                         </div>
                     </div>
                 </div>
-                <img src={logo} alt='logo' width='30%' height='20% ' className="rotate"  />
+                <img src={logo} alt='logo' width='30%' height='20% ' className="rotate" />
             </div>
 
         </div>
